@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+}
+
+group 'UiAutomationRajesh'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.14.0'
+    // https://mvnrepository.com/artifact/org.testng/testng
+    compile group: 'org.testng', name: 'testng', version: '6.14.3'
+    // https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager
+    compile group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '3.4.0'
+
+}
