@@ -1,15 +1,23 @@
-import BaseObject.TestBase;
-import org.openqa.selenium.WebDriver;
+import BaseObject.LoginPage;
 import org.testng.annotations.Test;
 
 
-public class BasicTest {
-    WebDriver driver;
+public class BasicTest extends TestBase{
+
 
     @Test
     public void test(){
-        TestBase testBase=new TestBase(driver);
-        testBase.openUrl("https://www.google.com");
+        LoginPage loginPage=new LoginPage(driver);
+        openUrl("https://www.flipKart.com");
+        loginPage.enterUserName("8971404670");
+        loginPage.enterPassword("sonu1961");
+        sleep(2000);
+        loginPage.clickLogin();
+        setCookie("abRand","45");
+        sleep(5000);
+        waitForPageToLoad();
+
+
     }
 
 }
