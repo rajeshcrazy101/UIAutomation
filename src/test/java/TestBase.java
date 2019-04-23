@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -111,7 +112,7 @@ public class TestBase {
 
     public void setCookie(String name,String value){
         driver.manage().addCookie(new Cookie(name,value));
-
+        driver.navigate().refresh();
     }
 
     public void waitTillUrlToBe(String url){
@@ -134,6 +135,17 @@ public class TestBase {
         return driver.getPageSource();
     }
 
+    public void acceptBrowserAlert(){
+        driver.switchTo().alert().accept();
+    }
+
+    public void dismissBrowserAlert(){
+        driver.switchTo().alert().dismiss();
+    }
+
+    public String getTextFromBrowserAlert(){
+        return driver.switchTo().alert().getText();
+    }
 
 
 }
