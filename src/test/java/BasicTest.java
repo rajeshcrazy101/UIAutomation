@@ -16,6 +16,12 @@ public class BasicTest extends TestBase{
         setCookie("abRand","45");
         sleep(5000);
         waitForPageToLoad();
+        loginPage.clickMajorCatrgoty();
+        loginPage.clickSubCat();
+        loginPage.scrollButtomToClickNext();
+        String url=getCurrentUrl();
+        System.out.println(url);
+
 
 
     }

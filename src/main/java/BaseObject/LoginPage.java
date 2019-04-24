@@ -41,4 +41,25 @@ public class LoginPage extends PageBase {
         //clickButton("xpath","//div[@class='Km0IJL col col-3-5']//button[@type='submit']");
     }
 
+    @FindBy(xpath = "//div[@class='zi6sUf']//span[contains(text(),'Electronics')]")
+    private WebElement majorCategory;
+
+    public void clickMajorCatrgoty(){
+        mouseHover(majorCategory);
+    }
+
+    @FindBy(xpath = "//div[@class='zi6sUf']//ul[@class='_3GtRpC']//a[@title='Realme']")
+    private WebElement clickSubCat;
+    public void clickSubCat(){
+        waitForElementToClickable("xpath","//div[@class='zi6sUf']//ul[@class='_3GtRpC']//a[@title='Realme']");
+        clickSubCat.click();
+    }
+
+    @FindBy(xpath = "//nav[@class='_1ypTlJ']//span")
+    private WebElement isNextButton;
+
+    public void scrollButtomToClickNext(){
+        waitForElementToVisible("xpath","//nav[@class='_1ypTlJ']//span");
+        scrollToViewElement(isNextButton);
+    }
 }

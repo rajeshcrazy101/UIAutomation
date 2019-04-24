@@ -1,5 +1,6 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -94,12 +95,12 @@ public class TestBase {
         driver.get(url);
     }
 
-    public void getCurrentUrl(){
-        driver.getCurrentUrl();
+    public String getCurrentUrl(){
+        return driver.getCurrentUrl();
     }
 
     public void waitForPageToLoad(){
-        driver.manage().timeouts().pageLoadTimeout(5, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
     }
 
     public void sleep(long mili){
@@ -146,6 +147,5 @@ public class TestBase {
     public String getTextFromBrowserAlert(){
         return driver.switchTo().alert().getText();
     }
-
 
 }
