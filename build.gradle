@@ -18,5 +18,8 @@ dependencies {
     compile group: 'org.testng', name: 'testng', version: '6.14.3'
     // https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager
     compile group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '3.4.0'
+    // https://mvnrepository.com/artifact/com.assertthat/selenium-shutterbug
+    compile group: 'com.assertthat', name: 'selenium-shutterbug', version: '0.9'
+
 
 }

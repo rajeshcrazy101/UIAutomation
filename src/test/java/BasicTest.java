@@ -4,8 +4,7 @@ import org.testng.annotations.Test;
 
 public class BasicTest extends TestBase{
 
-
-    @Test
+    @Test(retryAnalyzer=TestRetry.class)
     public void test(){
         LoginPage loginPage=new LoginPage(driver);
         openUrl("https://www.flipKart.com");
@@ -15,7 +14,7 @@ public class BasicTest extends TestBase{
         loginPage.clickLogin();
         setCookie("abRand","45");
         sleep(5000);
-        waitForPageToLoad();
+        waitForPageToLoad("flipkart");
         loginPage.clickMajorCatrgoty();
         loginPage.clickSubCat();
         loginPage.scrollButtomToClickNext();

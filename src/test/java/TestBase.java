@@ -1,3 +1,4 @@
+import com.assertthat.selenium_shutterbug.core.Shutterbug;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
@@ -7,17 +8,18 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
-
-
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
-import java.util.concurrent.TimeUnit;
+
 
 public class TestBase {
 
@@ -39,7 +41,10 @@ public class TestBase {
     }
 
     @AfterMethod
-    public void tearDown(){
+    public void tearDown(ITestResult result){
+        if (result.getStatus()==ITestResult.FAILURE){
+            takeScreenshot(result);
+        }
         if(driver!=null)
         driver.quit();
     }
@@ -99,8 +104,11 @@ public class TestBase {
         return driver.getCurrentUrl();
     }
 
-    public void waitForPageToLoad(){
-        driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
+    public boolean waitForPageToLoad(String pageUrl){
+        //driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
+        JavascriptExecutor js=(JavascriptExecutor)driver;
+        return driver.getCurrentUrl().contains(pageUrl) && js.executeScript("return document.readyState").equals("complete");
+
     }
 
     public void sleep(long mili){
@@ -121,10 +129,10 @@ public class TestBase {
         wait.until(ExpectedConditions.urlToBe(url));
     }
 
-    public void switchTo(){
+    public void switchTo(int tab){
         List<String> stringList= new ArrayList<String>(driver.getWindowHandles());
         for (int i=0;i<stringList.size();i++){
-            driver.switchTo().window(stringList.get(i));
+            driver.switchTo().window(stringList.get(tab));
         }
     }
 
@@ -146,6 +154,13 @@ public class TestBase {
 
     public String getTextFromBrowserAlert(){
         return driver.switchTo().alert().getText();
+    }
+
+    public void takeScreenshot(ITestResult result){
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+        System.out.println(timeStamp);
+        String currentDir = System.getProperty("user.dir");
+        Shutterbug.shootPage(driver).withName(result.getMethod().getMethodName()).save(currentDir + "/src/test/java/FailedTestScreeShot/" + timeStamp + ".png");
     }
 
 }
