@@ -11,7 +11,7 @@ public class BasicTest extends TestBase {
     private Logger logger=Logger.getLogger(BasicTest.class);
 
     @Test(groups = "sanity",description = "Login Test")
-    public void test(){
+    public void sampleTest(){
 
         LoginPage loginPage=new LoginPage(driver);
 
@@ -37,7 +37,34 @@ public class BasicTest extends TestBase {
         loginPage.scrollButtomToClickNext();
         String url=getCurrentUrl();
         System.out.println(url);
+    }
 
+    @Test
+    public void switchTest(){
+
+        LoginPage loginPage=new LoginPage(driver);
+
+        logger.info("Open flipkart");
+        openUrl("https://www.flipKart.com");
+        logger.info("Enter user mobile number");
+        loginPage.enterUserName("8971404670");
+        logger.info("Enter password");
+        loginPage.enterPassword("sonu1961");
+        logger.info("Click on login button");
+        loginPage.clickLogin();
+        logger.info("Verify did user logged in successfully");
+        Assert.assertTrue(loginPage.isLoginPopupClosed(),"login popup not closed");
+        sleep(2000);
+        loginPage.clickViewAllButton(0);
+        waitForPageToLoad("dotd-store");
+        loginPage.dealsIteam(1);
+        sleep(2000);
+        waitForPageToLoad("flipkart");
+        loginPage.clickProdectList(2);
+        switchTo(1);
+        String url=getCurrentUrl();
+        logger.info(url);
+        System.out.println(url);
 
 
     }

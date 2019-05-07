@@ -84,4 +84,33 @@ public class LoginPage extends PageBase {
         return loginPopup.isDisplayed();
     }
 
+    @FindBy(xpath = "//div[@class='_2Umlwf']//a[contains(text(),'VIEW ALL')]")
+    private List<WebElement> viewAll;
+
+    public void clickViewAllButton(int index){
+        waitForElementToVisible("xpath","//div[@class='_2Umlwf']//a[contains(text(),'VIEW ALL')]");
+        viewAll.get(index).click();
+    }
+
+    @FindBy(xpath = "//div[@class='MDGhAp']//img")
+    private List<WebElement> dealsPage;
+
+    public void dealsIteam(int index){
+        waitForElementToVisible("xpath","//div[@class='MDGhAp']//img");
+        int count=dealsPage.size();
+        logger.info(count);
+        dealsPage.get(index).click();
+
+    }
+
+    @FindBy(xpath = "//div[@class='_3O0U0u _288RSE']//img[@class='_3togXc']")
+    private List<WebElement> prodectList;
+
+    public void clickProdectList(int index){
+        waitForElementToVisible("xpath","//div[@class='_3O0U0u _288RSE']//img[@class='_3togXc']");
+        int count=prodectList.size();
+        logger.info(count);
+        prodectList.get(index).click();
+    }
+
 }
