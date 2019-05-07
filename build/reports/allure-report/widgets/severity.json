@@ -1,1 +1,11 @@
-[ ]
+[ {
+  "uid" : "95ead86036a3ddbc",
+  "name" : "Login Test",
+  "time" : {
+    "start" : 1557211771764,
+    "stop" : 1557211796961,
+    "duration" : 25197
+  },
+  "status" : "passed",
+  "severity" : "normal"
+} ]

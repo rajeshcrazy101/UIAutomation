@@ -39,7 +39,7 @@ dependencies {
 test {
     useTestNG() {
 
-        suites "src/test/java/TestNG/TestNg.xml"
+        suites "src/test/java/TestNg.xml"
     }
     reports.html.enabled = true
 }
