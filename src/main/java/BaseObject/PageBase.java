@@ -2,9 +2,9 @@ package BaseObject;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -12,9 +12,10 @@ import java.util.List;
 
 
 public class PageBase {
- WebDriver driver;
+ RemoteWebDriver driver;
 
     public By setValueForLocatorAndValue(String element,String value){
+        By by=null;
         if (element.equalsIgnoreCase("xpath")){
             return By.xpath(value);
         }else if (element.equalsIgnoreCase("className")){
@@ -23,8 +24,14 @@ public class PageBase {
             return By.id(value);
         }else if (element.equalsIgnoreCase("css")){
             return By.cssSelector(value);
+        }else if ((element.equalsIgnoreCase("partialLinkText"))) {
+            return By.partialLinkText(value);
+        }else if (element.equalsIgnoreCase("linkText")){
+            return By.linkText(value);
+        }else if (element.equalsIgnoreCase("tag")){
+            return By.tagName(value);
         }
-        return null;
+        return by;
     }
 
     public WebElement findElement(String locator,String value){
@@ -75,8 +82,8 @@ public class PageBase {
         actions.release();
     }
 
-    public void findAndReplace(String locator,String oldValue,String newValue){
-        findElement(locator,oldValue.replace("$",newValue));
+    public WebElement findAndReplace(String locator,String oldValue,String newValue){
+        return findElement(locator,oldValue.replace("$",newValue));
     }
 
     public void selectDropDown(WebElement element,String value){

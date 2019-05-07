@@ -1,16 +1,21 @@
 package BaseObject;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.log4testng.Logger;
+
+import java.util.List;
 
 public class LoginPage extends PageBase {
 
-    public LoginPage(WebDriver driver) {
+    public LoginPage(RemoteWebDriver driver) {
         this.driver=driver;
         PageFactory.initElements(driver, this);
     }
+
+    private Logger logger=Logger.getLogger(LoginPage.class);
 
     @FindBy(xpath = "//div[@class='Km0IJL col col-3-5']//input[@type='text']")
     private WebElement userName;
@@ -19,7 +24,7 @@ public class LoginPage extends PageBase {
         userName.click();
         userName.clear();
         userName.sendKeys(user);
-        //findElement("xpth","//div[@class='Km0IJL col col-3-5']//input[@type='text']").sendKeys(user);
+        //findElement("xpath","//div[@class='Km0IJL col col-3-5']//input[@type='text']").sendKeys(user);
     }
 
     @FindBy(xpath = "//div[@class='Km0IJL col col-3-5']//input[@type='password']")
@@ -48,11 +53,11 @@ public class LoginPage extends PageBase {
         mouseHover(majorCategory);
     }
 
-    @FindBy(xpath = "//div[@class='zi6sUf']//ul[@class='_3GtRpC']//a[@title='Realme']")
-    private WebElement clickSubCat;
-    public void clickSubCat(){
-        waitForElementToClickable("xpath","//div[@class='zi6sUf']//ul[@class='_3GtRpC']//a[@title='Realme']");
-        clickSubCat.click();
+    public void clickSubCategory(String value){
+        String xpathValue="//div[@class='zi6sUf']//ul[@class='_3GtRpC']//a[@title='$']";
+        WebElement element=findAndReplace("xpath",xpathValue,value);
+        element.click();
+
     }
 
     @FindBy(xpath = "//nav[@class='_1ypTlJ']//span")
@@ -62,4 +67,21 @@ public class LoginPage extends PageBase {
         waitForElementToVisible("xpath","//nav[@class='_1ypTlJ']//span");
         scrollToViewElement(isNextButton);
     }
+
+    @FindBy(xpath = "//*[@id='container']//span[@class='_1QZ6fC _3Lgyp8']")
+    private List<WebElement> mainCat;
+
+    public void clickMainCategory(int index){
+        int size=mainCat.size();
+        logger.info(size);
+        mainCat.get(index).click();
+    }
+
+    @FindBy(xpath = "//div[@class='mCRfo9']//div[@class='Km0IJL col col-3-5']")
+    private WebElement loginPopup;
+
+    public boolean isLoginPopupClosed(){
+        return loginPopup.isDisplayed();
+    }
+
 }

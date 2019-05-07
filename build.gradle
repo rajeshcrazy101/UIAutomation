@@ -1,12 +1,22 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "io.qameta.allure:allure-gradle:2.3"
+    }
+}
+
 plugins {
     id 'java'
+    id "io.qameta.allure" version "2.7.0"
 }
 
 group 'UiAutomationRajesh'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
-
+def allureVersion = '2.9.0'
 repositories {
     mavenCentral()
 }
@@ -20,6 +30,26 @@ dependencies {
     compile group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '3.4.0'
     // https://mvnrepository.com/artifact/com.assertthat/selenium-shutterbug
     compile group: 'com.assertthat', name: 'selenium-shutterbug', version: '0.9'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.11.2'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.2'
 
 
 }
+
+test {
+    useTestNG() {
+
+        suites "src/test/java/TestNG/TestNg.xml"
+    }
+    reports.html.enabled = true
+}
+
+allure {
+    version = allureVersion
+    useTestNG {
+        version = allureVersion
+    }
+    downloadLink = "http://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/$allureVersion/allure-commandline-$allureVersion"+".zip"
+}
+
+
