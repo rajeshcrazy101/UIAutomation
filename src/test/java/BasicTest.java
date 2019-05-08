@@ -18,7 +18,7 @@ public class BasicTest extends TestBase {
         logger.info("Open flipkart");
         openUrl("https://www.flipKart.com");
         logger.info("Enter user mobile number");
-        loginPage.enterUserName("8971404670");
+        loginPage.enterUserName(testDataFile.getProperty("userName"));
         logger.info("Enter password");
         loginPage.enterPassword("sonu1961");
         logger.info("Click on login button");

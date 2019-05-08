@@ -10,11 +10,16 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
 
-
+/**
+ * Creating or add a common methods which will return a page elements/DOM elements.
+* */
 public class PageBase {
  RemoteWebDriver driver;
 
-    public By setValueForLocatorAndValue(String element,String value){
+ /**
+  * setting a elements for DOM.
+  * */
+ public By setValueForLocatorAndValue(String element,String value){
         By by=null;
         if (element.equalsIgnoreCase("xpath")){
             return By.xpath(value);
@@ -34,10 +39,16 @@ public class PageBase {
         return by;
     }
 
+    /**
+     * Find element method
+     * */
     public WebElement findElement(String locator,String value){
         return driver.findElement(setValueForLocatorAndValue(locator,value));
     }
 
+    /**
+     * Find elements method
+     * */
     public List<WebElement> findElements(String locator,String value){
         return driver.findElements(setValueForLocatorAndValue(locator,value));
     }

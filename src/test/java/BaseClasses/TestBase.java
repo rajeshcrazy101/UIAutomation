@@ -13,7 +13,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.log4testng.Logger;
-
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -24,28 +23,41 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
 
-
+/**
+ * Initiating a driver and added common methods for test.
+ **/
 public class TestBase {
 
     private Properties configFile=null;
     private String browser=null;
     public RemoteWebDriver driver;
     private String os=null;
+    public Properties testDataFile=null;
 
     public Logger logger=Logger.getLogger(TestBase.class);
 
+    /**
+     * Initiating config and selecting the browser
+     * */
     @BeforeClass(alwaysRun = true)
     public void init(){
         initConfig();
+        initTestDatafile();
         osSelection();
         browserSelection();
     }
 
+    /**
+     * Initiating the driver
+     * */
     @BeforeMethod(alwaysRun = true)
     public void browserInit(){
-        initBrowser();
+        initDriver();
     }
 
+    /**
+    * Taking screenshot and quiting the driver.
+    * */
     @AfterMethod(alwaysRun = true)
     public void tearDown(ITestResult result){
 
@@ -67,12 +79,20 @@ public class TestBase {
         }
     }
 
+    public void initTestDatafile(){
+        testDataFile = new Properties();
+        try {
+            testDataFile.load(new FileReader("src/test/java/TestData.properties"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private String osSelection(){
         return System.getProperty("os.name");
     }
 
     private void browserSelection(){
-        System.out.println(System.getProperty("os.name"));
         os=osSelection().split(" ")[0].trim();
         os=configFile.getProperty("os");
         if (os.equalsIgnoreCase("MAC") || os.equalsIgnoreCase("WINDOWS")) {
@@ -89,8 +109,8 @@ public class TestBase {
         }
 
     }
-
-    private RemoteWebDriver initBrowser() {
+    
+    private RemoteWebDriver initDriver() {
         DesiredCapabilities capabilities;
             if (browser.equalsIgnoreCase("chrome")) {
                 capabilities = DesiredCapabilities.chrome();
@@ -99,13 +119,11 @@ public class TestBase {
                 capabilities = DesiredCapabilities.firefox();
 
             } else {
-
-                throw new NullPointerException();
+                throw new RuntimeException("Driver not initiated");
             }
             try {
                 driver = new RemoteWebDriver(new URL(configFile.getProperty("URL")),capabilities);
             } catch (MalformedURLException e) {
-                logger.info("Driver not initiated");
                 e.printStackTrace();
             }
         return driver;
@@ -145,10 +163,11 @@ public class TestBase {
         wait.until(ExpectedConditions.urlToBe(url));
     }
 
-    public void switchTo(int tab){
-        List<String> stringList= new ArrayList<String>(driver.getWindowHandles());
-        for (int i=0;i<stringList.size();i++){
-            driver.switchTo().window(stringList.get(tab));
+
+   public void switchTo(int tab){
+        List<String> windowList= new ArrayList<String>(driver.getWindowHandles());
+        for (int i=0;i<windowList.size();i++){
+            driver.switchTo().window(windowList.get(tab));
         }
     }
 
