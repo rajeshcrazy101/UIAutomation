@@ -37,11 +37,11 @@ dependencies {
 }
 
 test {
-    useTestNG() {
-
-        suites "src/test/java/TestNg.xml"
-    }
-    reports.html.enabled = true
+//    useTestNG() {
+//
+//        suites "src/test/java/TestNg.xml"
+//    }
+//    reports.html.enabled = true
 }
 
 allure {

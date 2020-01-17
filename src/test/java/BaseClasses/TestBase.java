@@ -34,8 +34,6 @@ public class TestBase {
     private String os=null;
     public Properties testDataFile=null;
 
-    public Logger logger=Logger.getLogger(TestBase.class);
-
     /**
      * Initiating config and selecting the browser
      * */
@@ -57,6 +55,7 @@ public class TestBase {
 
     /**
     * Taking screenshot and quiting the driver.
+     * @param result
     * */
     @AfterMethod(alwaysRun = true)
     public void tearDown(ITestResult result){
@@ -119,7 +118,7 @@ public class TestBase {
                 capabilities = DesiredCapabilities.firefox();
 
             } else {
-                throw new RuntimeException("Driver not initiated");
+                throw new NullPointerException("Driver not initiated");
             }
             try {
                 driver = new RemoteWebDriver(new URL(configFile.getProperty("URL")),capabilities);

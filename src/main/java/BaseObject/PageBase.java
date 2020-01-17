@@ -14,10 +14,13 @@ import java.util.List;
  * Creating or add a common methods which will return a page elements/DOM elements.
 * */
 public class PageBase {
- RemoteWebDriver driver;
+
+    RemoteWebDriver driver;
 
  /**
   * setting a elements for DOM.
+  * @param element
+  * @param value
   * */
  public By setValueForLocatorAndValue(String element,String value){
         By by=null;
@@ -41,6 +44,8 @@ public class PageBase {
 
     /**
      * Find element method
+     * @param locator
+     * @param value
      * */
     public WebElement findElement(String locator,String value){
         return driver.findElement(setValueForLocatorAndValue(locator,value));
@@ -48,6 +53,8 @@ public class PageBase {
 
     /**
      * Find elements method
+     * @param locator
+     * @param value
      * */
     public List<WebElement> findElements(String locator,String value){
         return driver.findElements(setValueForLocatorAndValue(locator,value));
@@ -97,6 +104,11 @@ public class PageBase {
         return findElement(locator,oldValue.replace("$",newValue));
     }
 
+    public WebElement waitForFindAndReplace(String locator,String oldValue,String newValue){
+        WebDriverWait wait=new WebDriverWait(driver,10);
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(setValueForLocatorAndValue(locator,oldValue.replace("$",newValue))));
+    }
+
     public void selectDropDown(WebElement element,String value){
         Select select = (Select) element;
         select.selectByVisibleText(value);
@@ -105,23 +117,35 @@ public class PageBase {
 
     public void scrollDown(int scrollTimes){
         int start = 0;
-        int end = 1000;
+        int end = 300;
         JavascriptExecutor js = (JavascriptExecutor) driver;
         for (int i =0 ; i < scrollTimes; i++){
             js.executeScript("window.scrollTo("+start+", "+end+");");
             start=end;
-            end= end+500;
+            end= end+300;
         }
     }
 
+    public void scrollToViewElementByStep(WebElement element){
+        int i = 5;
+        while(element.isDisplayed() && i != 0 ){
+            scrollDown(1);
+            i--;
+        }
+
+    }
+
     public void scrollToViewElement(WebElement element){
-//        int i = 5;
-//        while(element.isDisplayed() && i != 0 ){
-//            scrollDown(10);
-//            i--;
-//        }
         JavascriptExecutor js= (JavascriptExecutor) driver;
         js.executeScript("arguments[0].scrollIntoView();", element);
+    }
+
+    public void closeAlertPopup(){
+        driver.switchTo().alert().dismiss();
+    }
+
+    public void acceptAlertPopup(){
+        driver.switchTo().alert().accept();
     }
 
 }

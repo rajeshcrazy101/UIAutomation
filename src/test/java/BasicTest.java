@@ -2,6 +2,7 @@ import BaseClasses.TestBase;
 import BaseClasses.TestRetry;
 import BaseObject.LoginPage;
 import org.testng.Assert;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.testng.log4testng.Logger;
 
@@ -10,7 +11,7 @@ public class BasicTest extends TestBase {
 
     private Logger logger=Logger.getLogger(BasicTest.class);
 
-    @Test(groups = "sanity",description = "Login Test")
+    @Test(groups = "sanity",description = "Login Test",retryAnalyzer = TestRetry.class)
     public void sampleTest(){
 
         LoginPage loginPage=new LoginPage(driver);
@@ -38,9 +39,9 @@ public class BasicTest extends TestBase {
         String url=getCurrentUrl();
         System.out.println(url);
     }
-
-    @Test
-    public void switchTest(){
+    @Parameters("switchTest")
+    @Test(description = "switch window test",groups = "sanity")
+    public void switchTest(int index){
 
         LoginPage loginPage=new LoginPage(driver);
 
@@ -55,13 +56,13 @@ public class BasicTest extends TestBase {
         logger.info("Verify did user logged in successfully");
         Assert.assertTrue(loginPage.isLoginPopupClosed(),"login popup not closed");
         sleep(2000);
-        loginPage.clickViewAllButton(0);
+        loginPage.clickViewAllButton();
         waitForPageToLoad("dotd-store");
         loginPage.dealsIteam(1);
         sleep(2000);
         waitForPageToLoad("flipkart");
         loginPage.clickProdectList(2);
-        switchTo(1);
+        switchTo(index);
         String url=getCurrentUrl();
         logger.info(url);
         System.out.println(url);

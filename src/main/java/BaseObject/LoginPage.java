@@ -84,12 +84,13 @@ public class LoginPage extends PageBase {
         return loginPopup.isDisplayed();
     }
 
-    @FindBy(xpath = "//div[@class='_2Umlwf']//a[contains(text(),'VIEW ALL')]")
-    private List<WebElement> viewAll;
+    @FindBy(xpath = "//div[@class='_1GRhLX _3JslKL required-tracking']//a[contains(text(),'VIEW ALL')]")
+    private WebElement viewAll;
 
-    public void clickViewAllButton(int index){
-        waitForElementToVisible("xpath","//div[@class='_2Umlwf']//a[contains(text(),'VIEW ALL')]");
-        viewAll.get(index).click();
+    public void clickViewAllButton(){
+        scrollDown(1);
+        waitForElementToClickable("xpath","//div[@class='_1GRhLX _3JslKL required-tracking']//a[contains(text(),'VIEW ALL')]");
+        viewAll.click();
     }
 
     @FindBy(xpath = "//div[@class='MDGhAp']//img")
